@@ -1,11 +1,19 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        
-        def genParent(s,left,right,result):
-            if left: genParent(s+'(',left-1,right,result)
-            if right>left:genParent(s+')',left,right-1,result) 
-            if not right:
-                result.append(s)
-            return result
-        
-        return genParent('',n,n,[])
+        ans = []
+        def combiate(left, right, result):
+
+            if left > right:
+                return
+            
+            if left == 0 and right ==0:
+                ans.append(result)
+                return
+            
+            if left == 0:
+                combiate(left, right - 1, result + ')')
+            else:
+                combiate(left-1, right, result + '(')
+                combiate(left, right-1, result + ')')
+        combiate(n,n,'')
+        return ans

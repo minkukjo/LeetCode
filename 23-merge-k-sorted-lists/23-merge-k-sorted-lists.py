@@ -4,19 +4,20 @@ class ListNode:
         self.next = next
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        sorted_list = []
-        
-        for list in lists:
-            while list:
-                sorted_list.append(list.val)
-                list = list.next
-        
-        sorted_list = sorted(sorted_list)
+        heap = []
+        result = sorted_list = ListNode()
 
-        result = head = ListNode()
+        for i in range(len(lists)):
+            if lists[i]:
+                heapq.heappush(heap, (lists[i].val, i, lists[i]))
         
-        for val in sorted_list:
-            head.next = ListNode(val)
-            head = head.next
+        while heap:
+            val, index, node = heapq.heappop(heap)
+        
+            sorted_list.next = node
+            sorted_list = sorted_list.next
+            if sorted_list.next:
+                heapq.heappush(heap, (sorted_list.next.val, index, sorted_list.next))
+
 
         return result.next

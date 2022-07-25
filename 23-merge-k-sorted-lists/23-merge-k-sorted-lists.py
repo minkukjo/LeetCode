@@ -11,7 +11,7 @@ class Solution:
                 sorted_list.append(list.val)
                 list = list.next
         
-        sorted_list.sort()
+        sorted_list = sorted(sorted_list)
 
         result = head = ListNode()
         

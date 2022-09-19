@@ -1,39 +1,29 @@
-from collections import Counter
-
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        # DFS의 코스트가 크므로 계산이 불필요한 조건을 먼저 고려한다.
-        if not word:
-            return True
-        
-        m, n = len(board), len(board[0])
-        if len(word) > m * n:
-            return False
-        
-        counter = Counter(word)
-        for line in board:
-            for c in line:
-                if c in counter:
-                    counter[c] -= 1
-        for v in counter.values():
-            if v > 0:
+        row, col = len(board), len(board[0])
+        path = set()
+        s = ''
+        for r in range(row):
+            for c in range(col):
+                s += board[r][c]
+        for w in word:
+            if w not in s:
                 return False
-        
-        def DFS(r, c, w):
-            if not w:
+        def dfs(r, c, i):
+            if r < 0 or r >= row or c < 0 or c >= col or board[r][c] != word[i] or (r, c) in path:
+                return False
+            if board[r][c] == word[i] and i == len(word) - 1:
                 return True
             
-            if 0 <= r < m and 0 <= c < n and board[r][c] == w[0]:
-                board[r][c] = '#'
-                for nR, nC in [(r, c+1), (r+1, c), (r, c-1), (r-1, c)]:
-                    if DFS(nR, nC, w[1:]):
-                        return True
-                board[r][c] = w[0]
-            return False
+            path.add((r, c))
+            res = (dfs(r+1, c, i+1) or dfs(r-1, c, i+1) 
+                   or dfs(r, c+1, i+1) or dfs(r, c-1, i+1))
+            path.remove((r, c))
+            
+            return res
         
-        for r in range(m):
-            for c in range(n):
-                if board[r][c] == word[0] and DFS(r, c, word):
+        for r in range(row):
+            for c in range(col):
+                if dfs(r, c, 0):
                     return True
-        
         return False

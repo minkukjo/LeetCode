@@ -3,30 +3,43 @@ class Solution:
         if not prerequisites:
             return True
         
-        def DFS(node):
-            # Cycle detected.
+        def dfs(node):
             if visited[node] == 1:
                 return False
             
-            # Visit this node, explore neighbors.
             visited[node] = 1
-            for nbr in G[node]:
-                if visited[nbr] != 2 and not DFS(nbr):
+
+            for target in adj[node]:
+                if visited[target] != 2 and not dfs(target):
                     return False
             
-            # Done visiting node.
+            # is it done?
             visited[node] = 2
+        
             return True
-        
-        # Build the graph.
-        G = collections.defaultdict(list)
-        for postreq, course in prerequisites:
-            G[course].append(postreq)
-            G[postreq]  # Make sure nodes are made for courses with no postreqs.
-        
+
+        adj = {}
         visited = [0] * numCourses
-        for node in G:
+
+        for i in range(len(prerequisites)):
+            temp = []
+            if prerequisites[i][0] not in adj:
+                temp.append(prerequisites[i][1])
+                adj[prerequisites[i][0]] = temp
+                if prerequisites[i][1] not in adj:
+                    adj[prerequisites[i][1]] = []
+            else:
+                temp.extend(adj[prerequisites[i][0]])
+                temp.append(prerequisites[i][1])
+                adj[prerequisites[i][0]] = temp
+                if prerequisites[i][1] not in adj:
+                    adj[prerequisites[i][1]] = []
+
+
+
+        for node in adj:
             if not visited[node]:
-                if not DFS(node):
+                if not dfs(node):
                     return False
+
         return True

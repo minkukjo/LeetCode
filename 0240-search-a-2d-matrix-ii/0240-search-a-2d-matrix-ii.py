@@ -1,16 +1,27 @@
 class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        m,n = len(matrix), len(matrix[0])
+        last = n - 1
 
-        def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:
-        
-            row, col =   len(matrix)-1, 0        # <-- start at corner
+        def binray_search(arr):
+            left = 0
+            right = len(arr) - 1
+            while left <= right:
+                mid = (left + right) // 2
 
-            while row >=0 and col <= len(matrix[0])-1:  
-                cell = matrix[row][col]
+                if arr[mid] == target:
+                    return True
+                elif arr[mid] > target:
+                    right = mid-1
+                elif arr[mid] < target:
+                    left = mid+1
 
-                if cell > target:               # <-- go up 
-                    row-= 1
-                elif cell < target:             # <-- go right
-                    col+= 1
-                else: return True               # <-- target found
+            return False
 
-            return  False
+        for i in range(m):
+            if matrix[i][last] < target:
+                continue
+            
+            if binray_search(matrix[i]):
+                return True
+        return False

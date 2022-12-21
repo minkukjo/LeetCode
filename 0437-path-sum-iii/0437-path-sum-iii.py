@@ -1,11 +1,29 @@
-class Solution(object):
-    def pathSum(self, root, s):
-        return self.helper(root, s, [s])
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
 
-    def helper(self, node, origin, targets):
-        if not node: return 0
-        hit = 0
-        for t in targets:
-            if not t-node.val: hit += 1                          # count if sum == target
-        targets = [t-node.val for t in targets]+[origin]         # update the targets
-        return hit+self.helper(node.left, origin, targets)+self.helper(node.right, origin, targets)
+
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+        self.total = 0
+        def helper(node, cur):
+            if not node:
+                return
+            helper(node.left,cur+node.val)
+            helper(node.right,cur+node.val)
+            if cur + node.val == targetSum:
+                self.total += 1
+        
+        def dfs(node):
+            if not node:
+                return
+            helper(node,0)
+            dfs(node.left)
+            dfs(node.right)
+
+            
+        dfs(root)
+        return self.total

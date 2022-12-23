@@ -1,15 +1,18 @@
 class Solution:
-    def depth(self, node: Optional[TreeNode]) -> int:
-        left = self.depth(node.left) if node.left else 0
-        right = self.depth(node.right) if node.right else 0
-
-        if left + right > self.diameter:
-            self.diameter = left + right
-        print("left:",str(left))
-        print("right:",str(right))
-        return 1 + (left if left > right else right)
-    
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         self.diameter = 0
-        self.depth(root)
+
+        self.dfs(root)
+
         return self.diameter
+
+    def dfs(self,root):
+        if not root:
+            return 0 
+
+        leftCount = self.dfs(root.left)
+        rightCount = self.dfs(root.right)
+
+        self.diameter = max(self.diameter, leftCount + rightCount)
+
+        return max(leftCount, rightCount) + 1

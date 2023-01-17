@@ -1,18 +1,14 @@
 class Solution:
-    def minWindow(self, s: str, t: str) -> str:
-        need = collections.Counter(t)
-        l,r,i,j,missing = 0,0,0,0, len(t)
-        while r < len(s):
-            if need[s[r]] >0:
-                missing -=1
-            need[s[r]]-=1 
-            r+=1
-                
-            while missing == 0:
-                if j==0 or r-l < j-i:
-                    i,j=l,r
-                need[s[l]]+=1
-                if need[s[l]]>0:
-                    missing +=1
-                l += 1
-        return s[i:j]
+    def minWindow(self, s, t):
+        need, missing = collections.Counter(t), len(t)
+        i = I = J = 0
+        for j, c in enumerate(s, 1):
+            missing -= need[c] > 0
+            need[c] -= 1
+            if not missing:
+                while i < j and need[s[i]] < 0:
+                    need[s[i]] += 1
+                    i += 1
+                if not J or j - i <= J - I:
+                    I, J = i, j
+        return s[I:J]

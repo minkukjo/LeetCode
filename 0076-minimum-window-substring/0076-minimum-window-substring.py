@@ -1,34 +1,18 @@
-
-
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        
-        # Define variables
-        s_count, t_count = Counter(), Counter(t)
-        
-        l, r = 0, 0
-        
-        results = []
-        
-        while r <= len(s)-1:
-                                    
-            # Find valid window
-            s_count[s[r]] += 1            
-            r += 1
-            if s_count & t_count != t_count:
-                continue
+        need = collections.Counter(t)
+        l,r,i,j,missing = 0,0,0,0, len(t)
+        while r < len(s):
+            if need[s[r]] >0:
+                missing -=1
+            need[s[r]]-=1 
+            r+=1
                 
-            # Minimize this window
-            while l < r:
-                s_count[s[l]] -= 1 
+            while missing == 0:
+                if j==0 or r-l < j-i:
+                    i,j=l,r
+                need[s[l]]+=1
+                if need[s[l]]>0:
+                    missing +=1
                 l += 1
-                if s_count & t_count == t_count:
-                    continue
-                results.append(s[l-1:r])
-                break
-            
-            
-        # Return result
-        if not results:
-            return ""        
-        return min(results, key=len)
+        return s[i:j]

@@ -3,16 +3,15 @@ class Solution:
         if not root:
             return 0
         
-        def dfs(node, curMax):
-            if not node:
-                return
-            if node.val >= curMax:
-                count[0] += 1
-                curMax = node.val
-            dfs(node.left, curMax)
-            dfs(node.right, curMax)
+        ans = [0]
         
-        count = [0]
+        def dfs(node, cur):
+            if node:
+
+                if node.val >= cur:
+                    ans[0] += 1
+                    cur = node.val
+                dfs(node.left, cur)
+                dfs(node.right, cur)
         dfs(root, root.val)
-        
-        return count[0]
+        return ans[0]

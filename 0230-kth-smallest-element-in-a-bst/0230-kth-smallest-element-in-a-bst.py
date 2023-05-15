@@ -1,19 +1,24 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+from queue import PriorityQueue
+
+
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        heap = []
-
+        
+        que = PriorityQueue()
         def dfs(node):
-            if node is None:
-                return
-
-            heappush(heap, node.val)
-            dfs(node.left)
-            dfs(node.right)
-
+            if node:
+                que.put(node.val)
+                dfs(node.left)
+                dfs(node.right)
         dfs(root)
 
-        last = -1
+        ans = 0
         for i in range(k):
-            last = heappop(heap)
-
-        return last
+            ans = que.get()
+        return ans

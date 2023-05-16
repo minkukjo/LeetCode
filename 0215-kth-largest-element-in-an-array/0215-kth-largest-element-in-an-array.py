@@ -1,15 +1,10 @@
-from queue import PriorityQueue
-from typing import List
-
-
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        q = PriorityQueue()
+        heapq._heapify_max(nums)
+        result = -1
+        while k > 0:
+            k -= 1
+            result = heapq._heappop_max(nums)
+        return result
 
-        for num in nums:
-            q.put(-num)
         
-        ans = 0
-        for i in range(k):
-            ans = -q.get()
-        return ans

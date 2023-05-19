@@ -1,12 +1,26 @@
 class Solution:
-    def trap(self, height):
-        waterLevel = []
-        left = 0
-        for h in height:
-            left = max(left, h) 
-            waterLevel += [left] # over-fill it to left max height
-        right = 0
-        for i, h in reversed(list(enumerate(height))):
-            right = max(right, h)
-            waterLevel[i] = min(waterLevel[i], right) - h # drain to the right height
-        return sum(waterLevel)
+    def trap(self, height: List[int]) -> int:
+        
+        max_l = [0] * len(height)
+        max_r = [0] * len(height)
+
+        l = 0
+
+        for i in range(len(height)):
+            max_l[i] = l
+            l = max(height[i], l)
+
+        r = 0
+        for i in range(len(height)-1, -1,-1):
+            max_r[i] = r
+            r = max(height[i], r)
+        
+        ans = []
+        for i in range(len(height)):
+            water = min(max_l[i], max_r[i]) - height[i]
+            if water < 0:
+                ans.append(0)
+            else:
+                ans.append(water)
+        return sum(ans)
+

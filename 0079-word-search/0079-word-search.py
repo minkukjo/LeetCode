@@ -1,5 +1,13 @@
 class Solution:
-    def exist(self, board: List[List[str]], word: str) -> bool:
+    def exist(self, board: List[List[str]], word: str) -> bool:\
+        
+        s = ''
+        for r in range(len(board)):
+            for c in range(len(board[0])):
+                s += board[r][c]
+        for w in word:
+            if w not in s:
+                return False
         
         path = set()
         

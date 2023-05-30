@@ -1,18 +1,17 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
-        answer = []
         
-        def dfs(s, path, answer):
-            if not s:
-                answer.append(path)
+        lst = []
+
+        def dfs(i, curr):
+            if i == len(s):
+                lst.append(curr)
                 return
-
-            for i in range(1, len(s)+1):
-                if isPalindrome(s[:i]):
-                    dfs(s[i:], path + [s[:i]], answer)
         
-        def isPalindrome(s):
-            return s == s[::-1]
-        dfs(s,[],answer)
-
-        return answer
+            for j in range(i,len(s)):
+                sol = s[i:j+1]
+                if sol == sol[::-1]:
+                    dfs(j+1,curr+[sol])
+            return
+        dfs(0,[])
+        return lst

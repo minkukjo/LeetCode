@@ -11,7 +11,7 @@ class Solution:
             visit.append((i,j))
             
             while q:
-                (i,j) = q.pop()
+                (i,j) = q.popleft()
 
                 if i+1 < len(grid) and grid[i+1][j] == "1":
                     q.append((i+1,j))

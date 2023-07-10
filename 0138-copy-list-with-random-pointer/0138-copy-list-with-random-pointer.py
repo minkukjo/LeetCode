@@ -1,28 +1,42 @@
-"""
 # Definition for a Node.
+from collections import defaultdict
+
+
 class Node:
     def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
         self.val = int(x)
         self.next = next
         self.random = random
-"""
-
 
 class Solution:
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        if head is None: return None
-        mapping = {}
-        cur = head
-        while cur:
-            mapping[cur] = Node(cur.val, None, None)
-            cur = cur.next
-        cur = head
-        while cur:
-            if cur.next:
-                mapping[cur].next = mapping[cur.next]
-            if cur.random:
-                mapping[cur].random = mapping[cur.random]
-            cur = cur.next
-        return mapping[head]
         
+        if head is None:
+            return None
         
+        map = defaultdict()
+
+        temp = head
+
+        while temp:
+            map[temp] = Node(temp.val)
+            temp = temp.next
+        
+        temp = head
+
+
+        while temp:
+            n = map[temp]
+            if temp.next == None:
+                n.next = None
+            else:
+                n.next = map[temp.next]
+            
+            if temp.random == None:
+                temp.random = None
+            else:
+                n.random = map[temp.random]
+            
+            temp = temp.next
+        
+        return map[head]

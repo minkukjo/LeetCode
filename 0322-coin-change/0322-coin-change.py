@@ -4,30 +4,27 @@ from typing import List
 
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
+        # queue with current amount and number of coins
+        q = deque([(amount,0)])
+		
+		# set with visited amount to avoid duplicate work
+        visited = set()
 
-        if amount == 0:
-            return 0
-        if amount in coins:
-            return 1
-        
-        queue = deque([(amount,0)])
-        lookup = set([amount])
-        
-        while queue:
-            # deque.pop => pop right end from queue
-            # deque.popleft => pop left end from queue
-            remain, count = queue.popleft()
-            print(remain)
-            print(count)
-            if remain == 0:
-                return count
-            for coin in coins:
-                if remain - coin >= 0 and remain - coin not in lookup:
-                    queue.append((remain-coin, count+1))
-                    lookup.add(remain-coin)
+        while q:
+            amount, sum = q.popleft()
+
+            if amount == 0:
+                return sum
+            
+            for c in coins:
+                new_amount = amount - c
+
+                if new_amount in visited or new_amount <0 :
+                    continue
+
+                q.append((new_amount,sum+1))
+                visited.add(new_amount)
         return -1
 
 
-s = Solution()
-result = s.coinChange([2,5,10,1],27)
-print(result)
+

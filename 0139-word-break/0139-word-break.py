@@ -1,16 +1,13 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        q = deque([s])
-        cache = set()
-        while q:
-            s = q.popleft()
-            for word in wordDict:
-                if s.startswith(word):
-                    next = s[len(word):]
-
-                    if next == "":
-                        return True
-                    if next not in cache:
-                        q.append(next)
-                        cache.add(next)
-        return False
+        dp = [False]  * (len(s) +1 )
+        dp[len(s)] = True
+        for i in range(len(s) -1, -1, -1):
+            for w in wordDict:
+                if (i+len(w) <= len(s) and s[i:i+len(w)] == w):
+                    dp[i] = dp[i+len(w)]
+                if dp[i]:
+                    print(i)
+                    print(dp[i])
+                    break
+        return dp[0]

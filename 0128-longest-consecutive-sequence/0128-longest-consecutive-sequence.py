@@ -8,7 +8,7 @@ class Solution:
 
         max_len = 0
 
-        for i, value in enumerate(nums):
+        for i, value in enumerate(num_set):
 
             if value -1 not in num_set:
                 length = 0

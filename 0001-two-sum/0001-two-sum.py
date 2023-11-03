@@ -1,13 +1,13 @@
-
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        dic = {}
+        
+        cache = set(nums)
 
-        for i, value in enumerate(nums):
-            dic[value] = i
-        print(dic)
+        for index, num in enumerate(nums):
 
-        for i, value in enumerate(nums):
-            if target-value in dic and dic[target-value] != i:
-                return [i, dic[target - value]]
+            
+            if target - num in cache:
+                found_index = nums.index(target-num)
+                if found_index != index:
+                    return [index, found_index]
         

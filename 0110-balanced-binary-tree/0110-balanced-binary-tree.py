@@ -1,22 +1,22 @@
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-from typing import Optional
-
-
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         
-        def dfs(root):
-            if not root:
-                return [True, 0]
+        def findDepth(node):
 
-            left = dfs(root.left)
-            right = dfs(root.right)
-            balanced = (left[0] and right[0]) and (abs(left[1]-right[1]) <= 1)
+            if node is None:
+                return 0
+            
+            left_depth = findDepth(node.left)
+            righgt_depth = findDepth(node.right)
+            if left_depth == -1 or righgt_depth == -1 or abs(left_depth - righgt_depth) > 1:
+                return -1
+            return 1 + max(left_depth,righgt_depth)
 
-            return [balanced, 1 + max(left[1],right[1])]
-        return dfs(root)[0]
+        return findDepth(root) != -1
+

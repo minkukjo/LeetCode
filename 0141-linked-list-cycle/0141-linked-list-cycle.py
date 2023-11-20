@@ -11,13 +11,13 @@ class ListNode:
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         
-        slow = fast = head
+        checked = float('-inf')
 
-        while fast and fast.next:
-            fast = fast.next.next
-            slow = slow.next
-            if slow == fast:
+        while head:
+            if head.val == checked:
                 return True
+            head.val = checked
+            head = head.next
             
         return False
 

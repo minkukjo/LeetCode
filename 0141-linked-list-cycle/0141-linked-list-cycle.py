@@ -1,14 +1,23 @@
+# Definition for singly-linked list.
+from collections import defaultdict
 
+
+class ListNode:
+    def __init__(self, x, checked):
+        self.val = x
+        self.next = None
+        self.visited = checked
 
 class Solution:
     def hasCycle(self, head: Optional[ListNode]) -> bool:
         
-        visit = {}
+        slow = fast = head
 
-        while head:
-            if head.next in visit:
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+            if slow == fast:
                 return True
-            else:
-                visit[head.next] = head.val
-            head = head.next
+            
         return False
+

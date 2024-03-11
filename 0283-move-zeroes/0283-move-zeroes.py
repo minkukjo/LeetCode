@@ -1,21 +1,26 @@
+
+
 class Solution:
     def moveZeroes(self, nums: List[int]) -> None:
         """
         Do not return anything, modify nums in-place instead.
         """
+        left = 0
+        right = 1
 
-        array = [0] * len(nums)
+        while left != right and right < len(nums):
 
-        first = 0
-        last = len(nums)-1
-
-        for i, num in enumerate(nums):
-            if num == 0:
-                array[last] = 0
-                last -= 1
+            if nums[left] == 0 and nums[right] != 0:
+                nums[left],nums[right] = nums[right], nums[left]
+                left += 1
+                right = left + 1
+            elif nums[left] == 0 and nums[right] == 0:
+                right += 1
             else:
-                array[first] = num
-                first += 1
-        
-        for i, num in enumerate(array):
-            nums[i] = array[i]
+                left += 1
+                right += 1
+        return nums
+            
+            
+
+

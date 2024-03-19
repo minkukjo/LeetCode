@@ -3,11 +3,6 @@ class Solution:
         
         n = len(nums)
 
-        nums.sort()
-
-        start = 0
         for i in range(n):
-            if start != nums[i]:
-                return start
-            start +=1
+            n += i - nums[i]
         return n

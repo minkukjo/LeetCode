@@ -1,22 +1,16 @@
-from queue import PriorityQueue
-
-
 class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         
-        que = PriorityQueue()
+        ans = []
+        l = []
 
         for point in points:
-            
-            value = (point[0] * point[0]) + (point[1] * point[1])
-            que.put((value,point[0],point[1]))
-        
-        
-        ans = []
-        i = 0
-        while i < k:
-            value, point[0], point[1] = que.get()
-            ans.append([point[0],point[1]])
-            i += 1
-        return ans
+            dis = point[0] * point[0] + point[1] * point[1]
+            l.append((dis,point[0],point[1]))
+        l.sort()
 
+        for i in range(k):
+            x, y = l[i][1],l[i][2]
+
+            ans.append([x,y])
+        return ans

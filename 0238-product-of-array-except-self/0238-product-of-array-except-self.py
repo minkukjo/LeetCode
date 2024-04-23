@@ -1,30 +1,31 @@
-from collections import deque
-
-
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         
-        prefix = [1]
+        first = [1] * (len(nums))
 
-        x = 1
+        first[0] = nums[0]
+
+        second = [1] * (len(nums))
+
+        second[-1] = nums[-1]
+
+
+        for i in range(1, len(nums)):
+            first[i] = first[i-1] * nums[i]
+
+        for i in range(len(nums)-2, -1, -1):
+            second[i] = second[i+1] * nums[i]
+
         for i in range(len(nums)):
-            x = x * nums[i]
-            prefix.append(x)
-        
-        postfix = deque()
 
-        x = 1
-        for i in range(len(nums)-1, -1, -1):
-            x = x * nums[i]
-            postfix.appendleft(x)
-        postfix.append(1)
+            left = 1
+            if i-1 >= 0:
+                left = first[i-1]
 
-        result = []
+            right = 1
+            if i+1 < len(nums):
+                right = second[i+1]
+            
+            nums[i] = left* right
 
-        postfix = list(postfix)
-    
-        for index,val in enumerate(nums):
-            sum = prefix[index] * postfix[index+1]
-            result.append(sum)
-
-        return result
+        return nums

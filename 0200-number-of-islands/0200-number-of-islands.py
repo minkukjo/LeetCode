@@ -1,49 +1,37 @@
+from collections import deque
+
+
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        visit = set()
-        result = 0
-
         def bfs(i,j):
-            if (i,j) in visit or grid[i][j] == "0":
-                return
-            q = deque()
+            q=deque()
             q.append((i,j))
             visit.add((i,j))
-            
+            d = [(1,0), (-1,0), (0,1), (0,-1)]
+
             while q:
-                (i,j) = q.popleft()
+                x,y = q.popleft()
+                for dx,dy in d:
+                    nx = dx+x
+                    ny = dy+y
 
-                if i+1 < len(grid) and grid[i+1][j] == "1":
-                    q.append((i+1,j))
-                    grid[i+1][j] = "0"
-                    visit.add((i+1,j))
-
-                
-                if j+1 < len(grid[0]) and grid[i][j+1] == "1":
-                    q.append((i,j+1))
-                    grid[i][j+1] = "0"
-                    visit.add((i,j+1))
-                
-                if i-1 >= 0 and grid[i-1][j] == "1":
-                    q.append((i-1,j))
-                    grid[i-1][j] = "0"
-                    visit.add((i-1,j))
-
-                
-                if j-1 >= 0 and grid[i][j-1] == "1":
-                    q.append((i,j-1))
-                    grid[i][j-1] = "0"
-                    visit.add((i,j-1))
+                    if 0 <= nx < len(grid) and 0 <= ny < len(grid[0]) and (nx,ny) not in visit and grid[nx][ny] == '1':
+                        visit.add((nx,ny))
+                        q.append((nx,ny))
         
-
+        visit = set()
+        ans = 0
+        
         for i in range(len(grid)):
             for j in range(len(grid[0])):
-                if grid[i][j] == "1" and (i,j) not in visit:
+                if grid[i][j] == '1' and (i,j) not in visit:
+                    ans += 1
                     bfs(i,j)
-                    result += 1
-        return result
 
+        return ans
 
 
             
+
+
 

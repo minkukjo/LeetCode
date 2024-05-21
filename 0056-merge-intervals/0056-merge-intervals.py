@@ -2,20 +2,22 @@ class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort(key = lambda x: x[0])
 
-        min = intervals[0][0]
-        max = intervals[0][1]
+        index = 0
+        ans = []
 
-        ans = [[min, max]]
-        for index, arr in enumerate(intervals):
-            if index == 0:
-                continue
-
-            if min <= arr[0] and max >= arr[0]:
-                ans.pop()
-                max = arr[1] if arr[1] > max else max
-                ans.append([min,max])
-            else:
-                ans.append(arr)
-                min = arr[0]
-                max = arr[1]
+        while index < len(intervals):
+            
+            a = intervals[index][0]
+            b = intervals[index][1]
+            while index < len(intervals) -1 and b >= intervals[index+1][0]:
+                b = max(intervals[index+1][1], b)
+                index += 1
+            
+            ans.append([a,b])
+            index += 1
+        
         return ans
+
+
+    [[2,3],[4,5],[6,7],[8,9],[1,10]]
+    [[1,10],[2,3],]

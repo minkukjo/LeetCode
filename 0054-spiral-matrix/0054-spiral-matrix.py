@@ -12,7 +12,7 @@ class Solution:
             visit.append((x,y))
             ans.append(matrix[x][y])
 
-            if y+1 >= x:
+            if x <= y+1:
                 dfs(x,y+1)
             dfs(x+1,y)
             dfs(x,y-1)

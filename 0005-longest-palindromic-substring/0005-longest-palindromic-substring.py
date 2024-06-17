@@ -1,20 +1,29 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
         
-        def isPalindrome(low, high):
-            while low>=0 and high < len(s) and s[low] == s[high]:
-                low -= 1
-                high += 1
-            return s[low+1: high]
+        def find(l,r):
+            while l >= 0 and r < len(s) and s[l] == s[r]:
+                l -= 1
+                r += 1
+            return s[l+1:r]
+        
+        def longest(a, b, c):
+            len1 = len(a)
+            len2 = len(b)
+            len3 = len(c)
 
-        res = ''
+            if len1 >= len2 and len1 >= len3:
+                return a
+            elif len2 >= len1 and len2 >= len3:
+                return b
+            else:
+                return c
+
+        ans = ""
         for i in range(len(s)):
-            s1 = isPalindrome(i,i)
-            s2 = isPalindrome(i,i+1)
+            one = find(i,i)
+            two = find(i,i+1)
 
-            if len(s1) > len(res):
-                res = s1
-                
-            if len(s2) > len(res):
-                res = s2
-        return res
+            ans = longest(ans,one,two)
+            
+        return ans

@@ -1,29 +1,45 @@
+from collections import deque
+
+
 class Solution:
-    def exist(self, board: List[List[str]], word: str) -> bool:\
-        
-        s = ''
-        for r in range(len(board)):
-            for c in range(len(board[0])):
-                s += board[r][c]
-        for w in word:
-            if w not in s:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+
+        for char in word:
+            if not any(char in board[row] for row in range(len(board))):
                 return False
+            
+            
+        d = [(1,0), (0,1), (-1,0), (0,-1)]
+        def bfs(i,j):
+            q = deque()
+            q.append((i,j,"",set()))
+            
+            while q:
+                (x,y, s, visited) = q.popleft()
+                ans = s + board[x][y]
+
+                if ans == word:
+                    return True
+
+                if not word.startswith(ans):
+                    continue
+
+                visited = visited | {(x, y)}
+                
+                for dx, dy in d:
+                    nx = x + dx
+                    ny = y + dy
+
+                    if 0 <= nx < len(board) and 0 <= ny < len(board[0]) and (nx,ny) not in visited:
+                        q.append((nx,ny,ans, visited))
+            return False        
         
-        path = set()
-        
+
         for i in range(len(board)):
             for j in range(len(board[0])):
-                if dfs(i,j,board,word, path):
-                    return True
-        return False
+                if word[0] == board[i][j]:
+                    if bfs(i,j):
+                        return True
 
-def dfs(l,r,board, word, path):
-    if len(word) == 0:
-        return True
-    if l < 0 or l >= len(board) or r < 0 or r >= len(board[0]) or word[0] != board[l][r] or (l,r) in path:
+
         return False
-    
-    path.add((l,r)) 
-    res = dfs(l-1,r,board,word[1:], path) or dfs(l,r-1,board,word[1:], path) or dfs(l+1,r,board,word[1:], path) or dfs(l,r+1,board,word[1:], path)
-    path.remove((l,r)) 
-    return res

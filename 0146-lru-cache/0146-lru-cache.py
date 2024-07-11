@@ -1,25 +1,28 @@
+from collections import OrderedDict, defaultdict, deque
+
+
 class LRUCache:
 
     def __init__(self, capacity: int):
         self.capacity = capacity
         self.cache = OrderedDict()
-
+        
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            self.cache.move_to_end( key )
-            return self.cache[key]
-        else:
-            return -1 
+        if key not in self.cache:
+            return -1
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+        
 
     def put(self, key: int, value: int) -> None:
-        if key not in self.cache:
-            if len( self.cache ) >= self.capacity :
-                # pop the least used entry
-                self.cache.popitem( last = False )
-
-        else:
-			# refresh the entry with given key
-            self.cache.move_to_end( key )
+        self.cache[key] = value
+        self.cache.move_to_end(key)
         
-        self.cache[ key ] = value
+        if len(self.cache.keys()) > self.capacity:
+            # last=False means FIFO
+            # If last is True, it's gonig to be LILO
+            return self.cache.popitem(last=False)
+
+        

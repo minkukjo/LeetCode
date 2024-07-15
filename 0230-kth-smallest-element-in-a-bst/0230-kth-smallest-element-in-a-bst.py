@@ -4,21 +4,16 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from queue import PriorityQueue
-
-
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         
-        que = PriorityQueue()
-        def dfs(node):
-            if node:
-                que.put(node.val)
-                dfs(node.left)
-                dfs(node.right)
-        dfs(root)
-
-        ans = 0
-        for i in range(k):
-            ans = que.get()
-        return ans
+        ans = []
+        
+        def inorder(root):
+            if root:
+                inorder(root.left)
+                ans.append(root.val)
+                inorder(root.right)
+        inorder(root)
+        
+        return ans[k-1]

@@ -1,30 +1,43 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
+
+        def dfs(x,y):
+            
+            s = set()
+
+            for i in range(x, x+3):
+                for j in range(y, y+3):
+                    if board[i][j] == '.':
+                        continue
+                    if board[i][j] in s:
+                        return False
+                    s.add(board[i][j])
+            return True
         
-        rows = [set() for i in range(9)]
-        cols = [set() for i in range(9)]
-        mMat = [set() for i in range(9)]
-
-        for i in range(9):
-            for j in range(9):
-
-                cur = board[i][j]
-                if cur == '.':
+        for i in range(0,9,3):
+            for j in range(0,9,3):
+                if dfs(i,j) is False:
+                    return False
+        
+        # 가로열 중복 체크
+        for i in range(0,9):
+            s = set()
+            for j in range(0,9):
+                if board[i][j] == '.':
                     continue
-
-                k = ( i//3) * 3 + j // 3
-                
-                if cur not in rows[i]:
-                    rows[i].add(cur)
-                else:
+                if board[i][j] in s:
                     return False
-                if cur not in cols[j]:
-                    cols[j].add(cur)
-                else:
+                s.add(board[i][j])
+        
+        # 세로열 중복 체크
+        for i in range(0,9):
+            s = set()
+            for j in range(0,9):
+                if board[j][i] == '.':
+                    continue
+                if board[j][i] in s:
                     return False
-                
-                if cur not in mMat[k]:
-                    mMat[k].add(cur)
-                else:
-                    return False
+                s.add(board[j][i])
+        
         return True
+

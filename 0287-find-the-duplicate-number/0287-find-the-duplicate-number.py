@@ -10,11 +10,11 @@ class Solution:
                 # print(slow,fast)
                 break
                 
-        slow = nums[0]
+        target = nums[0]
         
-        while slow != fast:
-            slow = nums[slow]
+        while target != fast:
+            target = nums[target]
             fast = nums[fast]
 
-        return slow
+        return target
         

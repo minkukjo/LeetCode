@@ -1,8 +1,20 @@
 class Solution:
     def findDuplicate(self, nums: List[int]) -> int:
-        s = set()
+        slow = nums[0]
+        fast = nums[0]
+        
+        while True:
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+            if slow == fast:
+                # print(slow,fast)
+                break
+                
+        slow = nums[0]
+        
+        while slow != fast:
+            slow = nums[slow]
+            fast = nums[fast]
 
-        for num in nums:
-            if num in s:
-                return num
-            s.add(num)
+        return slow
+        

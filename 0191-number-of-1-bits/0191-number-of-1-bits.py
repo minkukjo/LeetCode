@@ -1,6 +1,12 @@
 class Solution:
     def hammingWeight(self, n: int) -> int:
-        b = bin(n)[2:].zfill(32)
-        filtered = list(filter(lambda num: int(num) > 0, b))
+        
+        bit = ""
+        ans = 0
+        while n > 0:
+            bit = str(n%2) + bit
+            if n%2 == 1:
+                ans += 1
+            n = n//2
 
-        return len(filtered)
+        return ans
